@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>הפרופיל שלי</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f7f6; margin: 40px; text-align: center; }
+        .container { max-width: 700px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .doc-item { padding: 10px; border-bottom: 1px solid #eee; text-align: right; display: flex; justify-content: space-between; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>הפרופיל האישי שלי 👤</h1>
+        <h3>שם משתמש: {{ user.username }}</h3>
+        <p>תאריך הצטרפות: {{ user.date_joined|date:"d/m/Y" }}</p>
+
+        <hr>
+        <h3 style="text-align: right; color: #3498db;">ההעלאות שלי ({{ user_documents|length }} קבצים):</h3>
+
+        {% for doc in user_documents %}
+            <div class="doc-item">
+                <div>
+                    <strong>{{ doc.title }}</strong> ({{ doc.course.name }})
+                    <br>
+                    <span style="font-size: 0.8em; color: #7f8c8d;">הועלה בתאריך: {{ doc.upload_date|date:"d/m/Y" }} | הורדות: {{ doc.download_count }}</span>
+                </div>
+                <a href="{{ doc.file.url }}" target="_blank" style="color: #2ecc71; font-weight: bold; text-decoration: none;">צפה</a>
+            </div>
+        {% empty %}
+            <p style="text-align: right; color: #7f8c8d;">טרם העלית קבצים לדרייב. זה הזמן לעזור לחברים! 😉</p>
+        {% endfor %}
+
+        <br>
+        <a href="{% url 'home' %}" style="color: #3498db; text-decoration: none; font-weight: bold;">→ חזרה לדף הבית</a>
+    </div>
+</body>
+</html>
